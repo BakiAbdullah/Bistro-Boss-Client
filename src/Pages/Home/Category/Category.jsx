@@ -23,9 +23,9 @@ const Category = () => {
         heading={"Order Online"}
       ></SectionTitle>
       <Swiper
-        slidesPerView={4}
-        spaceBetween={20}
-        centeredSlides={true}
+        slidesPerView={5}
+        spaceBetween={50}
+        centeredSlides={false}
         pagination={{
           clickable: true,
         }}
@@ -33,10 +33,16 @@ const Category = () => {
         autoplay={true}
         className="mySwiper mb-24"
       >
-        <SwiperSlide>
+        <SwiperSlide className="mb-20">
           <img src={slide1} alt="" />
           <h3 className="text-4xl uppercase text-center -mt-16 text-white shadow-lg">
             Salads
+          </h3>
+        </SwiperSlide>
+        <SwiperSlide>
+          <img src={slide2} alt="" />
+          <h3 className="text-4xl uppercase text-center -mt-16 text-white shadow-lg">
+            Pizza
           </h3>
         </SwiperSlide>
         <SwiperSlide>

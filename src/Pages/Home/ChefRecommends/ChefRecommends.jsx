@@ -9,7 +9,7 @@ const ChefRecommends = () => {
         heading="Chef Recommends"
       ></SectionTitle>
       <div className="grid my-20 lg:grid-cols-3 gap-12">
-        <div className="card w-full text-center glass">
+        <div className="w-full text-center glass">
           <figure>
             <img src={pizza} alt="car!" />
           </figure>
@@ -25,7 +25,7 @@ const ChefRecommends = () => {
             </div>
           </div>
         </div>
-        <div className="card w-full text-center glass">
+        <div className="w-full text-center glass">
           <figure>
             <img src={pizza} alt="car!" />
           </figure>
@@ -41,7 +41,7 @@ const ChefRecommends = () => {
             </div>
           </div>
         </div>
-        <div className="card w-full text-center glass">
+        <div className="w-full text-center glass">
           <figure>
             <img src={pizza} alt="car!" />
           </figure>
