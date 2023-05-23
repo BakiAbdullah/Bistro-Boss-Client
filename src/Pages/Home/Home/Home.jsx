@@ -1,9 +1,14 @@
+import Banner from "../Banner/Banner";
+import BistroBanner from "../BistroBanner/BistroBanner";
+import Category from "../Category/Category";
 
 
 const Home = () => {
   return (
     <div>
-      This is Home
+      <Banner></Banner>
+      <Category></Category>
+      <BistroBanner></BistroBanner>
     </div>
   );
 };
