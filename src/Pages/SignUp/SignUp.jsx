@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { AuthContext } from "../../providers/AuthProvider";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import SocialLogin from "../../components/SocialLogin/SocialLogin";
 
 const SignUp = () => {
   //1.
@@ -18,26 +19,37 @@ const SignUp = () => {
 
   //2. React Hook form onSubmit
   const onSubmit = (data) => {
-    console.log(data);
     // Data from AuthProvider / User
     createUser(data.email, data.password).then((result) => {
       const loggedUser = result.user;
       console.log(loggedUser);
       updateUserProfile(data.name, data.photoURL)
         .then(() => {
-          console.log("user Profile info Updated successfully");
-          reset();
-          Swal.fire({
-            position: 'top-end',
-            title: "User Created Successfully!",
-            showClass: {
-              popup: "animate__animated animate__fadeInDown",
+          const savedUser = { name: data.name, email: data.email, photoURL: data.photoURL };
+          fetch("http://localhost:5000/users", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
             },
-            hideClass: {
-              popup: "animate__animated animate__fadeOutUp",
-            },
-          });
-          navigate('/')
+            body: JSON.stringify(savedUser),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.insertedId) { 
+                reset();
+                Swal.fire({
+                  position: "top-end",
+                  title: "User Created Successfully!",
+                  showClass: {
+                    popup: "animate__animated animate__fadeInDown",
+                  },
+                  hideClass: {
+                    popup: "animate__animated animate__fadeOutUp",
+                  },
+                });
+                navigate("/");
+              }
+            });
         })
         .catch((err) => {
           console.log(err);
@@ -159,6 +171,7 @@ const SignUp = () => {
                 Already Have an Account? <Link to="/login">Login</Link>{" "}
               </small>
             </p>
+            <SocialLogin></SocialLogin>
           </div>
         </div>
       </div>
