@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet-async";
 import { FaTrashAlt, FaUserShield } from "react-icons/fa";
 import Swal from "sweetalert2";
-import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const AllUsers = () => {
   const axiosSecure = useAxiosSecure();
@@ -33,7 +33,7 @@ const AllUsers = () => {
       });
   };
 
-  const handleDelete = (user) => {};
+  // const handleDelete = (user) => {};
 
   return (
     <div className="w-full px-10">
@@ -73,7 +73,7 @@ const AllUsers = () => {
                 <td>
                   {" "}
                   <button
-                    onClick={() => handleDelete(user)}
+                    // onClick={() => handleDelete(user)}
                     className="btn btn-ghost bg-red-600 text-white btn-md"
                   >
                     <FaTrashAlt></FaTrashAlt>

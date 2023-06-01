@@ -25,15 +25,19 @@ const useAxiosSecure = () => {
 
     axiosSecure.interceptors.response.use(
       (response) => response,
-      (error) => {
+     async (error) => {
         if (
           error.response &&
           (error.response.status === 401 || error.response.status === 403)
-        ) {
-          logOut().then(() => {
-            navigate("/login");
-          });
-        }
+        ) 
+        // {
+        //   logOut().then(() => {
+        //     navigate("/login");
+        //   });
+        // }
+        {
+          await logOut();
+        navigate('/login')}
         return Promise.reject(error);
       }
     );
