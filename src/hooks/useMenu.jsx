@@ -16,7 +16,7 @@ const useMenu = () => {
   //     });
   // }, []);
 
-  //Todo: A Custom Hook to Handle data in different components Using React Query
+  //Todo: A Custom Hook to Handle state of data in different components Using React Query
   const { data: menu = [], isLoading: loading, refetch } = useQuery({
     queryKey: ["menu"],
     queryFn: async () => {
