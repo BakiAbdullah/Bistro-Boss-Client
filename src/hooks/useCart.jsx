@@ -24,13 +24,13 @@ const useCart = () => {
 
 export default useCart;
 
- // queryFn: async () => {
-    //   const res = await fetch(
-    //     `http://localhost:5000/carts?email=${user?.email}`, {
-    //       method: "GET",
-    //       headers: {
-    //        authorization: `bearer ${token}`
-    //       }
-    //     });
-    //   return res.json();
-    // },
+// queryFn: async () => {
+//   const res = await fetch(
+//     `https://bistro-boss-server-lovat.vercel.app/carts?email=${user?.email}`, {
+//       method: "GET",
+//       headers: {
+//        authorization: `bearer ${token}`
+//       }
+//     });
+//   return res.json();
+// },

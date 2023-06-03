@@ -58,8 +58,8 @@ const DashBoard = () => {
                 </li>
 
                 <li>
-                  <NavLink to="/dashboard/managebookings">
-                    <FaBook></FaBook>Manage Bookings
+                  <NavLink to="/">
+                    <FaBook></FaBook>Manage Bookings Not Implemented
                   </NavLink>
                 </li>
 
@@ -77,7 +77,7 @@ const DashBoard = () => {
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/dashboard/reservations">
+                  <NavLink to="/">
                     <FaCalendarAlt></FaCalendarAlt>Reservation
                   </NavLink>
                 </li>

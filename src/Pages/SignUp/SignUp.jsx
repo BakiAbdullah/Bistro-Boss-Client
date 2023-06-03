@@ -25,8 +25,12 @@ const SignUp = () => {
       console.log(loggedUser);
       updateUserProfile(data.name, data.photoURL)
         .then(() => {
-          const savedUser = { name: data.name, email: data.email, photoURL: data.photoURL };
-          fetch("http://localhost:5000/users", {
+          const savedUser = {
+            name: data.name,
+            email: data.email,
+            photoURL: data.photoURL,
+          };
+          fetch("https://bistro-boss-server-lovat.vercel.app/users", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -35,7 +39,7 @@ const SignUp = () => {
           })
             .then((res) => res.json())
             .then((data) => {
-              if (data.insertedId) { 
+              if (data.insertedId) {
                 reset();
                 Swal.fire({
                   position: "top-end",

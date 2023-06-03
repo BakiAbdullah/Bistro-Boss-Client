@@ -27,13 +27,13 @@ const ManageItems = () => {
           }
         });
 
-        // fetch(`http://localhost:5000/menu/${item._id}`, {
+        // fetch(`https://bistro-boss-server-lovat.vercel.app/menu/${item._id}`, {
         //   method: "DELETE",
         // })
         //   .then((res) => res.json())
         //   .then((data) => {
         // if (data.deletedCount > 0) {
-        //   refetch(); 
+        //   refetch();
         //   Swal.fire("Deleted!", "Your file has been deleted.", "success");
         // }
         //   });
