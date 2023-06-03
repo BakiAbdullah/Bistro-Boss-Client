@@ -3,13 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import useAuth from "./useAuth";
 
+const axiosSecure = axios.create({
+  baseURL: "http://localhost:5000", // Replace with your base URL
+});
+
 const useAxiosSecure = () => {
   const { logOut } = useAuth(); // Custom hook for AuthContext
   const navigate = useNavigate();
-
-  const axiosSecure = axios.create({
-    baseURL: "http://localhost:5000", // Replace with your base URL
-  });
 
   useEffect(() => {
     axiosSecure.interceptors.request.use(
@@ -25,23 +25,23 @@ const useAxiosSecure = () => {
 
     axiosSecure.interceptors.response.use(
       (response) => response,
-     async (error) => {
+      async (error) => {
         if (
           error.response &&
           (error.response.status === 401 || error.response.status === 403)
-        ) 
-        // {
-        //   logOut().then(() => {
-        //     navigate("/login");
-        //   });
-        // }
-        {
+        ) {
+          // {
+          //   logOut().then(() => {
+          //     navigate("/login");
+          //   });
+          // }
           await logOut();
-        navigate('/login')}
+          navigate("/login");
+        }
         return Promise.reject(error);
       }
     );
-  }, [axiosSecure, logOut, navigate]);
+  }, [ logOut, navigate]);
 
   return axiosSecure;
 };

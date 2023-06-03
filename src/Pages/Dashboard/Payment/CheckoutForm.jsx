@@ -2,15 +2,17 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
+import Swal from "sweetalert2";
+import "./CheckoutForm.css";
 
-const CheckoutForm = ({ price }) => {
+const CheckoutForm = ({ cart, price }) => {
   const stripe = useStripe();
   const elements = useElements();
-  const {user} = useAuth();
+  const { user } = useAuth();
   const [cardError, setCardError] = useState("");
   const axiosSecure = useAxiosSecure();
   const [clientSecret, setClientSecret] = useState("");
-  const [processing, setProcessing ] = useState(false);
+  const [processing, setProcessing] = useState(false);
   const [transactionId, setTransactionId] = useState("");
 
   // useEffect(() => {
@@ -25,17 +27,18 @@ const CheckoutForm = ({ price }) => {
   // }, []);
 
   useEffect(() => {
-    console.log(price)
-    axiosSecure.post("/create-payment-intent", { price }).then((res) => {
-      console.log(res.data.clientSecret);
-      setClientSecret(res.data.clientSecret);
-    });
-  }, []);
+    console.log(price);
+    if (price > 0) {
+      axiosSecure.post("/create-payment-intent", { price }).then((res) => {
+        console.log(res.data.clientSecret);
+        setClientSecret(res.data.clientSecret);
+      });
+    }
+  }, [price, axiosSecure]);
 
   const handleSubmit = async (event) => {
     // Block native form submission.
     event.preventDefault();
-
     if (!stripe || !elements) {
       return;
     }
@@ -46,7 +49,7 @@ const CheckoutForm = ({ price }) => {
     }
 
     // Use your card Element with other Stripe.js APIs
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
+    const { error } = await stripe.createPaymentMethod({
       type: "card",
       card,
     });
@@ -59,29 +62,55 @@ const CheckoutForm = ({ price }) => {
       // console.log("paymentMethod", paymentMethod);
     }
 
-    setProcessing(true)
+    setProcessing(true);
 
     const { paymentIntent, error: confirmError } =
       await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: card,
           billing_details: {
-            email: user?.email || 'unknown',
-            name: user?.displayName || 'anonymous'
+            email: user?.email || "unknown",
+            name: user?.displayName || "anonymous",
           },
         },
       });
 
-      if(confirmError) {
-        console.log(confirmError);
-      } 
+    if (confirmError) {
+      console.log(confirmError);
+    }
 
-      console.log("payment Intent", paymentIntent);
-      setProcessing(false);
-      if(paymentIntent.status === "succeeded") {
-        setTransactionId(paymentIntent.id);
-        //TODO: Next Steps
-      }
+    console.log("payment Intent", paymentIntent);
+    setProcessing(false);
+    if (paymentIntent.status === "succeeded") {
+      setTransactionId(paymentIntent.id);
+      // Save Payment Information to the server
+      const payment = {
+        email: user?.email,
+        transactionId: paymentIntent.id,
+        price,
+        date: new Date(),
+        quantity: cart.length,
+        cartItems: cart.map((item) => item._id),
+        menuItems: cart.map((item) => item.menuItemId),
+        status: "service pending",
+        itemNames: cart.map((item) => item.name),
+      };
+
+      axiosSecure.post("/payments", payment).then((res) => {
+        console.log(res.data);
+        if (res.data.insertedId) {
+          // display
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Payment Success",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          // refetch();
+        }
+      });
+    }
   };
 
   return (
